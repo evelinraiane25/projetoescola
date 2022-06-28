@@ -1,29 +1,15 @@
-# endless-vue
 
-## Project setup
+## Para instalar as dependências
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Para rodar o projeto do vue
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Para rodar o banco de dados
 ```
-npm run build
+json-server --watch banco.json
 ```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
