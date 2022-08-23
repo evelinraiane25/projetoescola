@@ -1,11 +1,19 @@
 <template>
   <div>
-    <titulo texto="Alunos" />
+    <titulo
+      :texto="
+        professorId != undefined
+          ? `Professor: ${professor.nome}`
+          : 'Todos os alunos'
+      "
+    />
     <div>
-      <input type="text" placeholder="Nome" v-model="nome" @keyup.enter="adicionar()" />
-      &nbsp;
-      <input type="text" placeholder="Sobrenome" v-model="sobrenome" @keyup.enter="adicionar()" />
-      &nbsp;
+      <input
+        type="text"
+        placeholder="Nome"
+        v-model="nome"
+        @keyup.enter="adicionar()"
+      />
       <button class="btn btnInput" @click="adicionar()">Adicionar</button>
     </div>
 
@@ -16,15 +24,19 @@
       <thead>
         <th>#</th>
         <th>Nome</th>
-        <th>Sobrenome</th>
         <th>Opões</th>
       </thead>
       <tbody v-if="alunos.length">
         <tr v-for="(aluno, index) in alunos" :key="index">
-          <td>{{ aluno.id }}</td>
-          <td>{{ aluno.nome }}</td>
-          <td>{{ aluno.sobrenome }}</td>
-          <td>
+          <td class="center">{{ aluno.id }}</td>
+          <router-link
+            :to="`/alunos/detalhe/${aluno.id}`"
+            tag="td"
+            style="cursor: pointer"
+          >
+            {{ aluno.nome }} {{ aluno.sobrenome }}
+          </router-link>
+          <td class="center">
             <button class="btn btnDanger" @click="apagar(aluno)">
               Remover
             </button>
@@ -53,27 +65,43 @@ export default {
       nome: "",
       sobrenome: "",
       alunos: [],
+      professorId: this.$route.params.professorid,
+      professor: [],
     };
   },
+
   methods: {
     /* eslint-disable */
     ...mapActions({
-      listarTodos: "alunos/listarTodos",
-      listarPorCodigo: "alunos/listarPorCodigo",
+      listarAlunos: "alunos/listarAlunos",
+      listarProfessores: "professores/listarProfessores",
+      listarAlunosPorCodigoProfessor: "alunos/listarAlunosPorCodigoProfessor",
+      listarProfessoresPorCodigo: "professores/listarProfessoresPorCodigo",
       salvar: "alunos/salvar",
       remover: "alunos/remover",
       atualizar: "alunos/atualizar",
     }),
 
-    listar() {
-      this.alunos = [];
-      this.listarTodos().then((resposta) => (this.alunos = resposta.data));
+    //Created
+    carregar() {
+      if (this.professorId) {
+        this.carregarProfessores();
+        this.listarAlunosPorCodigoProfessor({ id: this.professorId }).then(
+          (resposta) => (this.alunos = resposta.data)
+        );
+      } else {
+        this.listarAlunos().then((resposta) => (this.alunos = resposta.data));
+      }
     },
 
     adicionar() {
       let aluno = {
         nome: this.nome,
         sobrenome: this.sobrenome,
+        professor: {
+          id: this.professor.id,
+          nome: this.professor.nome,
+        },
       };
 
       this.salvar({ nome: aluno.nome, sobrenome: aluno.sobrenome }).then(() => {
@@ -81,7 +109,7 @@ export default {
         this.nome = "";
         this.sobrenome = "";
 
-        this.listar();
+        this.carregar();
       });
     },
 
@@ -91,9 +119,16 @@ export default {
         this.alunos.splice(indice, 1);
       });
     },
+
+    carregarProfessores() {
+      this.listarProfessoresPorCodigo({ id: this.professorId }).then((res) => {
+        this.professor = res.data;
+      });
+    },
   },
+
   mounted() {
-    this.listar();
+    this.carregar();
   },
 };
 </script>

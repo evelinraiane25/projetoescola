@@ -1,14 +1,48 @@
 {
-  "alunos": [
+  "professores": [
     {
-      "nome": "Evelin",
-      "sobrenome": "Silva",
-      "id": 1
+      "id": 1,
+      "nome": "Paulo",
+      "sobrenome": ""
     },
     {
+      "id": 2,
+      "nome": "Marcia",
+      "sobrenome": ""
+    },
+    {
+      "id": 3,
+      "nome": "Odete",
+      "sobrenome": ""
+    }
+  ],
+  "alunos": [
+    {
+      "id": 2,
       "nome": "Guilherme",
       "sobrenome": "Lopes",
-      "id": 3
+      "nascimento": "07/04/1991",
+      "professor": {
+        "id": 2,
+        "nome": "Marcia",
+        "sobrenome": ""
+      }
+    },
+    {
+      "id": 3,
+      "nome": "Evelin",
+      "sobrenome": "Raiane",
+      "nascimento": "25/041/989",
+      "professor": {
+        "id": 2,
+        "nome": "Marcia",
+        "sobrenome": ""
+      }
+    },
+    {
+      "nome": "6666",
+      "sobrenome": "",
+      "id": 4
     }
   ]
 }

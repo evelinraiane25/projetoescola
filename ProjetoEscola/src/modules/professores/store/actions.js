@@ -2,15 +2,10 @@
 import { Promise } from "core-js";
 import HTTP from "@/utils/http";
 const api = new HTTP("professores");
-import qs from 'qs';
 
-const listarTodos = async ({ commit }, payload) => {
-  let url = "professores";
-
-  if (payload) url = url + "?" + qs.stringify(payload);
-
+const listarProfessores = async ({ commit }, payload) => {
   return await api
-    .get(url, payload)
+    .get("professores", payload)
     .then(async (resp) => {
       return Promise.resolve(resp);
     })
@@ -19,7 +14,7 @@ const listarTodos = async ({ commit }, payload) => {
     });
 };
 
-const listarPorCodigo = async ({ commit }, payload) => {
+const listarProfessoresPorCodigo = async ({ commit }, payload) => {
   return await api
     .get(`professores/${payload.id}`)
     .then(async (resp) => {
@@ -54,7 +49,7 @@ const remover = async ({ commit }, payload) => {
 
 const atualizar = async ({ commit }, payload) => {
   return await api
-    .put(`/professores/${payload.id}`, payload)
+    .put(`professores/${payload.id}`, payload)
     .then(async (resp) => {
       return Promise.resolve(resp);
     })
@@ -64,8 +59,8 @@ const atualizar = async ({ commit }, payload) => {
 };
 
 export default {
-  listarTodos,
-  listarPorCodigo,
+  listarProfessores,
+  listarProfessoresPorCodigo,
   salvar,
   remover,
   atualizar,

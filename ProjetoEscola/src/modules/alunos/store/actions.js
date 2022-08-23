@@ -2,9 +2,8 @@
 import { Promise } from "core-js";
 import HTTP from "@/utils/http";
 const api = new HTTP("alunos");
-import qs from 'qs';
 
-const listarTodos = async ({ commit }, payload) => {
+const listarAlunos = async ({ commit }, payload) => {
   return await api
     .get(`alunos`, payload)
     .then(async (resp) => {
@@ -15,7 +14,18 @@ const listarTodos = async ({ commit }, payload) => {
     });
 };
 
-const listarPorCodigo = async ({ commit }, payload) => {
+const listarAlunosPorCodigoProfessor = async ({ commit }, payload) => {
+  return await api
+    .get(`alunos?professor.id=${payload.id}`)
+    .then(async (resp) => {
+      return Promise.resolve(resp);
+    })
+    .catch((err) => {
+      return Promise.reject(err);
+    });
+};
+
+const listarAlunosPorCodigo = async ({ commit }, payload) => {
   return await api
     .get(`alunos/${payload.id}`)
     .then(async (resp) => {
@@ -50,7 +60,7 @@ const remover = async ({ commit }, payload) => {
 
 const atualizar = async ({ commit }, payload) => {
   return await api
-    .put(`/alunos/${payload.id}`, payload)
+    .put(`alunos/${payload.id}`, payload)
     .then(async (resp) => {
       return Promise.resolve(resp);
     })
@@ -60,8 +70,9 @@ const atualizar = async ({ commit }, payload) => {
 };
 
 export default {
-  listarTodos,
-  listarPorCodigo,
+  listarAlunos,
+  listarAlunosPorCodigo,
+  listarAlunosPorCodigoProfessor,
   salvar,
   remover,
   atualizar,

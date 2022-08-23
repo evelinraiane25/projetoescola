@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+body {
+  background-color: #eee;
+  font-family: "Montserrat", sans-serif;
+  display: grid;
+  justify-items: center;
+}
+
+body,
+html {
+  margin: 0;
+  height: 100%;
+}
+.marginPrincipal {
+  width: 50%;
+  margin: auto;
+}
+#app {
+  width: 100%;
+}
+
+.voltar {
+  width: 50%;
+  position: absolute;
+  margin-top: 15px;
+}
+
+.btn {
+  border: 1px solid #000;
+  cursor: pointer;
+  padding: 1px solid #000;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border-bottom: 3px solid black;
+  font-size: 1, 5;
+}
+
+/* .btn:hover {
+  text-shadow: 1px, 1px, 1px black;
+  border-bottom: 1px solid black;
+  margin-top: 3px;
+} */
+
+.btnVoltar {
+  float: right;
+  background-color: rgb(199, 199, 199);
+}
+
+.btnDanger {
+  background: #ee5050f0;
+}
+
+.btnInput {
+  width: 150px;
+  border: 0px;
+  padding: 20px;
+  font-size: 0.9em;
+  display: inline;
+  background-color: rgb(116, 115, 115);
+}
+.btnEditar {
+  float: right;
+  background-color: rgb(76, 186, 249);
+}
+.btnSalvar {
+  float: right;
+  background-color: rgb(79, 196, 68);
+}
+.btnCancelar {
+  float: left;
+  background-color: rgb(249, 186, 92);
+}
+
+/* .btnInput:hover {
+  padding: 20px;
+  width: 0px;
+  border: 0px;
+} */
+
+table {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+  width: 100%;
+}
+
+table tr td {
+  padding: 20px;
+  font-size: 1.3em;
+  background: #e0edf4;
+  margin: 2px;
+  color: #3e5252;
+}
+
+table thead th {
+  background: rgb(188, 206, 212) !important;
+  font-size: 1, 2em;
+  padding: 10px 0px;
+  text-align: center !important;
+}
+
+select {
+  height: 38%;
+  width: 100%;
+}
+
+input {
+  width: calc(100% - 195px);
+  border: 0;
+  padding: 20px;
+  font-size: 1, 3em;
+  color: #819191;
+  display: inline;
+}
+
+input,
+select {
+  margin: 0;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  font-family: "Montserrat";
+  border: 1px solid silver;
+  border-radius: 5px;
+  width: 95%;
+  background-color: rgb (245, 245, 245);
+}
+
+.colPequeno {
+  width: 20%;
+  text-align: right;
+  background-color: rgb(125, 217, 245);
+  font-weight: bold;
+}
+
+.center {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
