@@ -21,3 +21,8 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+/ProjetoEscola.Domain/bin
+/ProjetoEscola.Domain/obj
+/ProjetoEscola.Api/bin
+/ProjetoEscola.Api/obj
+/ProjetoEscola.Api/.vs
