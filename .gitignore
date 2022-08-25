@@ -26,3 +26,4 @@ pnpm-debug.log*
 /ProjetoEscola.Api/bin
 /ProjetoEscola.Api/obj
 /ProjetoEscola.Api/.vs
+/.vs
