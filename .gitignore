@@ -27,3 +27,13 @@ pnpm-debug.log*
 /ProjetoEscola.Api/obj
 /ProjetoEscola.Api/.vs
 /.vs
+/ProjetoEscola.Application/obj
+/ProjetoEscola.Application/bin/Debug/netcoreapp2.2
+/ProjetoEscola.Common/bin/Debug/netcoreapp2.2
+/ProjetoEscola.Common/obj
+/ProjetoEscola.Contracts/bin/Debug/netcoreapp2.2
+/ProjetoEscola.Contracts/obj
+/ProjetoEscola.Infra/bin/Debug/netcoreapp2.2
+/ProjetoEscola.Infra/obj
+/ProjetoEscola.Migrations/bin/Debug/netcoreapp2.2
+/ProjetoEscola.Migrations/obj
