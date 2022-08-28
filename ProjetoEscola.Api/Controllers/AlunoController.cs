@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoEscola.Domain.Alunos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProjetoEscola.Api.Controllers
@@ -57,7 +55,7 @@ namespace ProjetoEscola.Api.Controllers
                 {
                     return Created($"/api/aluno/{aluno.Id}", aluno);
                 }
-                
+
                 return StatusCode(StatusCodes.Status500InternalServerError, "Não foi possivel adicionar o aluno.");
             }
             catch (SystemException)

@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoEscola.Domain.Professores;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProjetoEscola.Api.Controllers
