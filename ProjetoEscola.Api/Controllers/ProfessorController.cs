@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetoEscola.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/professor")]
     [ApiController]
     public class ProfessorController : ControllerBase
     {
@@ -18,11 +18,13 @@ namespace ProjetoEscola.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> ListarTodos()
         {
             try
             {
-                return Ok();
+                var result = await _repository.ListarTodos(true);
+
+                return Ok(result);
             }
             catch (SystemException)
             {
@@ -31,11 +33,13 @@ namespace ProjetoEscola.Api.Controllers
         }
 
         [HttpGet("{professorid}")]
-        public IActionResult Get(int professorId)
+        public async Task<IActionResult> ListarPorId(int professorid)
         {
             try
             {
-                return Ok();
+                var result = await _repository.ListarPorId(professorid, true);
+
+                return Ok(result);
             }
             catch (SystemException)
             {
@@ -44,56 +48,71 @@ namespace ProjetoEscola.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Professor professor)
+        public async Task<IActionResult> Adicionar(Professor professor)
         {
             try
             {
                 _repository.Adicionar(professor);
 
                 if (await _repository.SalvarAlteracoes())
-                {
                     return Created($"/api/professor/{professor.Id}", professor);
-                }
-
-                return StatusCode(StatusCodes.Status500InternalServerError, "Não foi possivel adicionar o professor.");
             }
             catch (SystemException)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Falha no banco de dados.");
             }
+
+            return BadRequest();
         }
 
         [HttpPut("{professorid}")]
-        public IActionResult Put(int professorId, Professor professor)
+        public async Task<IActionResult> Atualizar(int professorid, Professor professor)
         {
             try
             {
+                var exite = await _repository.ListarPorId(professorid);
+                if (exite == null) return NotFound();
+
+                professor.Id = professorid;
+
                 _repository.Atualizar(professor);
 
-                //if (await _repository.SalvarAlteracoes())
-                //{
-                //    return Created($"/api/professor/{professor.Id}", professor);
-                //}
+                if (await _repository.SalvarAlteracoes())
+                {
+                    exite = await _repository.ListarPorId(professorid, true);
 
-                return StatusCode(StatusCodes.Status500InternalServerError, "Não foi possivel adicionar o professor.");
-            }
-            catch (SystemException)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Falha no banco de dados.");
-            }
-        }
-
-        [HttpDelete]
-        public IActionResult Delete(int professorId)
-        {
-            try
-            {
-                return Ok();
+                    return Created($"/api/professor/{professor.Id}", exite);
+                }
             }
             catch (SystemException)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
+            };
+
+            return BadRequest();
+        }
+
+        [HttpDelete("{professorid}")]
+        public async Task<IActionResult> Apagar(int professorid)
+        {
+            try
+            {
+                var exite = await _repository.ListarPorId(professorid);
+                if (exite == null) return NotFound();
+
+                _repository.Apagar(exite);
+
+                if (await _repository.SalvarAlteracoes())
+                {
+                    return Ok();
+                }
             }
+            catch (SystemException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
+            };
+
+            return BadRequest();
         }
     }
 }

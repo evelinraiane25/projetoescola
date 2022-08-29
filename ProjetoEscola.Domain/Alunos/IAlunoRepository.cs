@@ -11,5 +11,11 @@ namespace ProjetoEscola.Domain.Alunos
         void Apagar(Aluno aluno);
 
         Task<bool> SalvarAlteracoes();
+
+        Task<Aluno[]> ListarTodos(bool incluirProfessor = false);
+
+        Task<Aluno[]> ListarPorProfessorId(int professorId, bool incluirProfessor = false);
+
+        Task<Aluno> ListarPorId(int alunoId, bool incluirProfessor = false);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetoEscola.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/aluno")]
     [ApiController]
     public class AlunoController : ControllerBase
     {
@@ -18,25 +18,43 @@ namespace ProjetoEscola.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> ListarTodos()
         {
             try
             {
-                return Ok();
+                var result = await _repository.ListarTodos(true);
+
+                return Ok(result);
             }
             catch (SystemException)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
             }
-
         }
 
         [HttpGet("{alunoid}")]
-        public IActionResult Get(int alunoId)
+        public async Task<IActionResult> ListarPorId(int alunoid)
         {
             try
             {
-                return Ok();
+                var result = await _repository.ListarPorId(alunoid, true);
+
+                return Ok(result);
+            }
+            catch (SystemException)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
+            }
+        }
+
+        [HttpGet("professor/{professorid}")]
+        public async Task<IActionResult> ListarPorProfessorId(int professorid)
+        {
+            try
+            {
+                var result = await _repository.ListarPorProfessorId(professorid, true);
+
+                return Ok(result);
             }
             catch (SystemException)
             {
@@ -45,49 +63,71 @@ namespace ProjetoEscola.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Aluno aluno)
+        public async Task<IActionResult> Adicionar(Aluno aluno)
         {
             try
             {
                 _repository.Adicionar(aluno);
 
                 if (await _repository.SalvarAlteracoes())
-                {
                     return Created($"/api/aluno/{aluno.Id}", aluno);
-                }
-
-                return StatusCode(StatusCodes.Status500InternalServerError, "Não foi possivel adicionar o aluno.");
             }
             catch (SystemException)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou.");
             }
+
+            return BadRequest();
         }
 
         [HttpPut("{alunoid}")]
-        public IActionResult Put(int alunoId)
+        public async Task<IActionResult> Atualizar(int alunoid, Aluno aluno)
         {
             try
             {
-                return Ok();
+                var exite = await _repository.ListarPorId(alunoid);
+                if (exite == null) return NotFound();
+
+                aluno.Id = alunoid;
+
+                _repository.Atualizar(aluno);
+
+                if (await _repository.SalvarAlteracoes())
+                {
+                    exite = await _repository.ListarPorId(alunoid, true);
+
+                    return Created($"/api/aluno/{aluno.Id}", exite);
+                }
             }
             catch (SystemException)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
             };
+
+            return BadRequest();
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int alunoId)
+        [HttpDelete("{alunoid}")]
+        public async Task<IActionResult> Apagar(int alunoid)
         {
             try
             {
-                return Ok();
+                var exite = await _repository.ListarPorId(alunoid);
+                if (exite == null) return NotFound();
+
+                _repository.Apagar(exite);
+
+                if (await _repository.SalvarAlteracoes())
+                {
+                    return Ok();
+                }
             }
             catch (SystemException)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Banco Dados Falhou");
-            }
+            };
+
+            return BadRequest();
         }
     }
 }

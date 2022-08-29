@@ -11,5 +11,9 @@ namespace ProjetoEscola.Domain.Professores
         void Apagar(Professor professor);
 
         Task<bool> SalvarAlteracoes();
+
+        Task<Professor[]> ListarTodos(bool incluirAluno = false);
+
+        Task<Professor> ListarPorId(int professorId, bool incluirAluno = false);
     }
 }

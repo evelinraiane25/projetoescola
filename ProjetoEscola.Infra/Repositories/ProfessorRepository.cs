@@ -1,4 +1,6 @@
-﻿using ProjetoEscola.Domain.Professores;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjetoEscola.Domain.Professores;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProjetoEscola.Infrastructure.Repositories
@@ -30,6 +32,36 @@ namespace ProjetoEscola.Infrastructure.Repositories
         public async Task<bool> SalvarAlteracoes()
         {
             return await _dataContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<Professor[]> ListarTodos(bool incluirAluno)
+        {
+            IQueryable<Professor> query = _dataContext.Professores;
+
+            if (incluirAluno)
+                query = query
+                        .Include(p => p.Alunos);
+
+            query = query
+                    .AsNoTracking()
+                    .OrderBy(p => p.Id);
+
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Professor> ListarPorId(int professorId, bool incluirAluno)
+        {
+            IQueryable<Professor> query = _dataContext.Professores;
+
+            if (incluirAluno)
+                query = query
+                        .Include(p => p.Alunos);
+
+            query = query
+                    .AsNoTracking()
+                    .Where(p => p.Id == professorId);
+
+            return await query.FirstOrDefaultAsync();
         }
     }
 }

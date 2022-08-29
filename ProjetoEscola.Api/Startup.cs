@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using ProjetoEscola.Infrastructure;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
@@ -23,12 +25,20 @@ namespace ProjetoEscola.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ProjetoEscolaContainer.Instalar(Configuration, services);
+
             services.AddDbContext<DataContext>(
                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                      x => x.MigrationsAssembly("ProjetoEscola.Migrations"))
             );
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.DateFormatString = "dd-MM-yyyyTHH:mm:ssZ";
+                options.SerializerSettings.Formatting = Formatting.Indented;
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             // Configurando o serviço de documentação do Swagger
             services.AddSwaggerGen(c =>
