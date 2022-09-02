@@ -1,8 +1,8 @@
 <template>
   <div>
-    <titulo :texto="`Aluno: ${alunos.nome}`" :btnVoltar="true" >
+    <titulo :texto="`Aluno: ${alunos.nome}`" :btnVoltar="true">
       <button v-show="visualizando" class="btb btnEditar" @click="editar()">
-        Editar  
+        Editar
       </button>
     </titulo>
     <table>
@@ -32,18 +32,25 @@
           <td class="colPequeno">Data Nascimento:</td>
           <td>
             <label v-if="visualizando">{{ alunos.nascimento }}</label>
-            <input v-else v-model="alunos.nascimento" type="text" placeholder="dd/mm/aaaa" />
+            <input
+              v-else
+              v-model="alunos.nascimento"
+              type="text"
+              placeholder="dd/mm/aaaa"
+            />
           </td>
         </tr>
         <tr>
           <td class="colPequeno">Professor:</td>
           <td>
-            <label v-if="visualizando">{{ alunos.professor && alunos.professor.nome }}</label>
-            <select v-else v-model="alunos.professor">
+            <label v-if="visualizando">{{
+              alunos.professor && alunos.professor.nome
+            }}</label>
+            <select v-else v-model="alunos.professor.id">
               <option
                 v-for="(professor, index) in professores"
                 :key="index"
-                v-bind:value="professor"
+                v-bind:value="professor.id"
               >
                 {{ professor.nome }}
               </option>
@@ -109,7 +116,7 @@ export default {
         nome: _aluno.nome,
         sobrenome: _aluno.sobrenome,
         nascimento: _aluno.nascimento,
-        professor: _aluno.professor,
+        professorId: _aluno.professor.id,
       };
 
       console.log(_aluno.professor);
@@ -127,6 +134,5 @@ export default {
   mounted() {
     this.carregar();
   },
-
 };
 </script>

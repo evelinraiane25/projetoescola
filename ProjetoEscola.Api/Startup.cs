@@ -27,6 +27,8 @@ namespace ProjetoEscola.Api
         {
             ProjetoEscolaContainer.Instalar(Configuration, services);
 
+            services.AddCors();
+
             services.AddDbContext<DataContext>(
                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                      x => x.MigrationsAssembly("ProjetoEscola.Migrations"))
@@ -71,6 +73,10 @@ namespace ProjetoEscola.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Projeto Escola v1");
             });
+
+            app.UseCors(c => c.AllowAnyOrigin()
+                              .AllowAnyMethod()
+                              .AllowAnyHeader());
 
             app.UseMvc();
         }

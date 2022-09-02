@@ -12,7 +12,11 @@
         <tr v-for="(professor, index) in professores" :key="index">
           <td class="center">{{ professor.id }}</td>
 
-          <router-link v-bind:to="`/alunos/${professor.id}`" tag="td" style="cursor: pointer">
+          <router-link
+            v-bind:to="`/alunos/${professor.id}`"
+            tag="td"
+            style="cursor: pointer"
+          >
             {{ professor.nome }} {{ professor.sobrenome }}
           </router-link>
 
@@ -20,7 +24,11 @@
         </tr>
       </tbody>
       <tfoot v-else>
-        Nenhum aluno encontrado
+        <tr>
+          <td colspan="3" style="text-align: center">
+            <h5>Nenhum professor encontrado</h5>
+          </td>
+        </tr>
       </tfoot>
     </table>
   </div>
@@ -70,8 +78,8 @@ export default {
           id: professor.id,
           nome: professor.nome,
           quantidadeAlunos: this.alunos.filter(
-              aluno => aluno.professor && aluno.professor.id == professor.id
-            ).length
+            (aluno) => aluno.professor && aluno.professor.id == professor.id
+          ).length,
         };
 
         this.professores[index] = professor;

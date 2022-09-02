@@ -16,7 +16,7 @@ const listarAlunos = async ({ commit }, payload) => {
 
 const listarAlunosPorCodigoProfessor = async ({ commit }, payload) => {
   return await api
-    .get(`alunos?professor.id=${payload.id}`)
+    .get(`alunos/professor/${payload.id}`)
     .then(async (resp) => {
       return Promise.resolve(resp);
     })

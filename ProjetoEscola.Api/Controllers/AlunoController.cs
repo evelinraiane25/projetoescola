@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetoEscola.Api.Controllers
 {
-    [Route("api/aluno")]
+    [Route("api/alunos")]
     [ApiController]
     public class AlunoController : ControllerBase
     {

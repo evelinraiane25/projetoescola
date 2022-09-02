@@ -7,7 +7,7 @@
           : 'Todos os alunos'
       "
     />
-    <div>
+    <div v-if="this.$route.params.professorid">
       <input
         type="text"
         placeholder="Nome"
@@ -44,7 +44,11 @@
         </tr>
       </tbody>
       <tfoot v-else>
-        Nenhum aluno encontrado
+        <tr>
+          <td colspan="3" style="text-align: center">
+            <h5>Nenhum aluno encontrado</h5>
+          </td>
+        </tr>
       </tfoot>
     </table>
   </div>
@@ -90,7 +94,9 @@ export default {
           (resposta) => (this.alunos = resposta.data)
         );
       } else {
-        this.listarAlunos().then((resposta) => (this.alunos = resposta.data));
+        this.listarAlunos().then((resposta) => {
+          this.alunos = resposta.data;
+        });
       }
     },
 
@@ -98,13 +104,11 @@ export default {
       let aluno = {
         nome: this.nome,
         sobrenome: this.sobrenome,
-        professor: {
-          id: this.professor.id,
-          nome: this.professor.nome,
-        },
+        nascimento: "",
+        professorId: this.professor.id,
       };
 
-      this.salvar({ nome: aluno.nome, sobrenome: aluno.sobrenome }).then(() => {
+      this.salvar({ ...aluno }).then(() => {
         this.alunos.push(aluno);
         this.nome = "";
         this.sobrenome = "";
